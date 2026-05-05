@@ -118,6 +118,7 @@ $aLang = [
 
     // Listen
     'DD_LISTLOCATOR_FILTER_ATTRIBUTES'                      => 'Filter',
+    'DD_LIST_SUBCATEGORIES_LABEL'                           => 'In dieser Kategorie',
     'DD_LIST_SHOW_MORE'                                     => 'Produkte ansehen',
     'O3_LESS'                                               => 'Weniger',
 

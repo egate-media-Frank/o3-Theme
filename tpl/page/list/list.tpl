@@ -54,7 +54,7 @@
         [{if $oView->hasVisibleSubCats() || $oView->getAttributes()}]
             <div class="alist__orga">
                 [{if $oView->hasVisibleSubCats()}]
-                    <div class="alist__orga-subcats">
+                    <nav class="alist__orga-subcats" data-label="[{oxmultilang ident="DD_LIST_SUBCATEGORIES_LABEL"}]" aria-label="[{oxmultilang ident="DD_LIST_SUBCATEGORIES_LABEL"}]">
                         [{foreach from=$oView->getSubCatList() item=category name=MoreSubCat}]
 
                             [{if $category->getContentCats()}]
@@ -72,7 +72,7 @@
                             [{/if}]
 
                         [{/foreach}]
-                    </div>
+                    </nav>
                 [{/if}]
 
                 [{if $oView->getAttributes()}]

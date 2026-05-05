@@ -1,21 +1,120 @@
+// ─── Top-nav megamenu (2nd-level categories) ─────────────────────────────────
+//
+// Auto-sizes to content for few sub-categories (e.g. one item — issue #141)
+// while still expanding into a multi-column megamenu when there are many.
+
 .megamenu {
     position: absolute;
+    top: 100%;
     left: 0;
-    right: 0;
-    padding: 30px 30px calc(30px - 1.5rem);
+    z-index: 1000;
     display: none;
+    min-width: 240px;
+    max-width: min(720px, calc(100vw - 40px));
+    width: max-content;
+    margin-top: 12px;
+    padding: 22px 28px 18px;
     background: $white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
-    z-index: 100;
-    margin-top: 2px;
+    border: 1px solid rgba(17, 34, 17, 0.06);
+    border-radius: 12px;
+    box-shadow:
+        0 24px 48px -16px rgba(18, 18, 18, 0.18),
+        0 4px 12px -4px rgba(18, 18, 18, 0.06);
 
-    .mega-dropdown:hover > & {
+    // small caret pointing up to the parent nav item
+    &::before {
+        content: '';
+        position: absolute;
+        top: -7px;
+        left: 28px;
+        width: 12px;
+        height: 12px;
+        background: $white;
+        border-top: 1px solid rgba(17, 34, 17, 0.06);
+        border-left: 1px solid rgba(17, 34, 17, 0.06);
+        transform: rotate(45deg);
+    }
+
+    // bridging strip so cursor can travel parent → menu without losing hover
+    &::after {
+        content: '';
+        position: absolute;
+        top: -12px;
+        left: 0;
+        right: 0;
+        height: 12px;
+    }
+
+    // CSS-grid replacement for the bootstrap row/col-3 markup —
+    // collapses to a single column when there's one sub-cat, expands gracefully.
+    .row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
+        gap: 18px 36px;
+        margin: 0;
+
+        > [class*="col-"] {
+            flex: unset;
+            max-width: none;
+            width: auto;
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+    }
+
+    a {
+        display: inline-block;
+        padding: 4px 0;
+        color: $body-color;
+        text-decoration: none;
+        position: relative;
+        transition: color 0.15s ease;
+        line-height: 1.45;
+
+        // animated underline that grows from left on hover
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 2px;
+            height: 1px;
+            width: 0;
+            background: var(--bs-primary);
+            transition: width 0.22s ease;
+        }
+
+        &:hover,
+        &:focus-visible,
+        &.current {
+            color: var(--bs-primary);
+
+            &::after {
+                width: 100%;
+            }
+        }
+    }
+
+    // Level-2 sub-category title — heavier weight, slight letter-spacing
+    [data-level="is-level-2"] {
+        font-weight: 600;
+        font-size: 0.9375rem;
+        letter-spacing: 0.01em;
+        color: $body-color;
+        margin-bottom: 6px;
         display: block;
     }
 
-    a:not([data-level="is-level-2"]) {
+    // Level-3 (sub-sub) — quieter, smaller, sits below its parent in the same column
+    [data-level="is-level-3"] {
         display: block;
-        margin-top: 10px;
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: rgba(18, 18, 18, 0.6);
+        padding: 3px 0;
+
+        &::after {
+            bottom: 1px;
+        }
     }
 }
 
@@ -31,6 +130,7 @@
             right: 0;
             height: 2px;
             background-color: transparent;
+            transition: background-color 0.15s ease;
         }
 
         &:hover::after,
@@ -47,6 +147,30 @@
     }
 }
 
-[data-level="is-level-2"] {
-    font-weight: 600;
+.mega-dropdown {
+    &:hover > .megamenu,
+    &:focus-within > .megamenu {
+        display: block;
+        animation: megamenu-reveal 0.18s ease-out;
+    }
+
+    // gentle chevron rotation on parent hover
+    &:hover > .nav-link svg {
+        transform: rotate(180deg);
+    }
+
+    .nav-link svg {
+        transition: transform 0.22s ease;
+    }
+}
+
+@keyframes megamenu-reveal {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

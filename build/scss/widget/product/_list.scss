@@ -66,33 +66,92 @@
 .alist__orga-subcats {
     position: relative;
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     width: 100%;
     flex-grow: 1;
-    gap: 10px;
+    gap: 10px 14px;
+    padding: 16px 0 18px;
+    border-top: 1px solid rgba(17, 34, 17, 0.08);
     margin: 0 calc(var(--bs-gutter-x) * -0.5);
-    padding: 0 calc(var(--bs-gutter-x) * 0.5);
-    overflow-x: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
 
     @include media-breakpoint-up(md) {
         margin: unset;
-        padding: unset;
+        padding-left: 0;
+        padding-right: 0;
     }
 
     @include media-breakpoint-up(lg) {
         width: unset;
-        scrollbar-width: auto;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: thin;
+
+        &::-webkit-scrollbar {
+            height: 4px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: rgba(17, 34, 17, 0.15);
+            border-radius: 2px;
+        }
     }
 
-    .btn {
+    // eyebrow label (rendered before the chips via :before content)
+    &::before {
+        content: attr(data-label);
+        flex-shrink: 0;
+        font-size: 0.75rem;
         font-weight: 600;
-        border: 1px solid $input-border-color;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(18, 18, 18, 0.55);
+        margin-right: 6px;
         white-space: nowrap;
+    }
+
+    // re-style the bare .btn into proper category chip
+    .btn {
+        --chip-border: rgba(17, 34, 17, 0.16);
+        --chip-fg: #{$body-color};
+
+        font-weight: 500;
+        font-size: 0.9375rem;
+        line-height: 1.2;
+        padding: 8px 16px;
+        border: 1px solid var(--chip-border);
+        border-radius: 999px;
+        background: $white;
+        color: var(--chip-fg);
+        white-space: nowrap;
+        transition:
+            background-color 0.18s ease,
+            border-color 0.18s ease,
+            color 0.18s ease,
+            transform 0.18s ease;
+
+        &:hover,
+        &:focus-visible {
+            --chip-border: var(--bs-primary);
+            --chip-fg: #{$white};
+            background: var(--bs-primary);
+            transform: translateY(-1px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        // active page state (current sub-category)
+        &.active,
+        &[aria-current="page"] {
+            --chip-border: var(--bs-primary);
+            --chip-fg: var(--bs-primary);
+            background: rgba(130, 186, 0, 0.08);
+            font-weight: 600;
+        }
     }
 }
 
