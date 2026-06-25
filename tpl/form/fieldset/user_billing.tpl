@@ -237,8 +237,7 @@
     [{/if}]
 [{/block}]
 
-[{block name="captcha_form"}]
-[{/block}]
+[{block name="captcha_form"}][{$oViewConf->getCaptchaWidget('register')}][{/block}]
 
 <p class="alert alert-info">[{oxmultilang ident="COMPLETE_MARKED_FIELDS"}]</p>
 

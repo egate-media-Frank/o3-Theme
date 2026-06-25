@@ -60,7 +60,7 @@
 
     [{/block}]
 
-    [{block name="captcha_form"}][{/block}]
+    [{block name="captcha_form"}][{$oViewConf->getCaptchaWidget('newsletter')}][{/block}]
 
     [{block name="newsletter_form_button"}]
         <p class="alert alert-info">[{oxmultilang ident="COMPLETE_MARKED_FIELDS"}]</p>
