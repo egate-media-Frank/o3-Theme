@@ -7093,7 +7093,9 @@
   var navExpand = [].slice.call(document.querySelectorAll(".nav-expand"));
   var navBox = document.querySelector("#offcanvas__mainnav .offcanvas-body");
   navExpand.forEach(function(item) {
-    item.querySelector(".nav-link").addEventListener("click", function() {
+    item.querySelector(".nav-expand-link").addEventListener("click", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
       nav.classList.add(this.dataset.level);
       navBox.scrollTop = 0;
       return item.classList.add("active");
